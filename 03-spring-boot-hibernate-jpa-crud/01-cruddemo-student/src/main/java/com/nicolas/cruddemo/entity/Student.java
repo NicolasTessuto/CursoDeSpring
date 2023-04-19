@@ -8,6 +8,7 @@ public class Student {
     //Defining fields
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
+    @Id
     private int id;
 
     @Column(name="first_name")
@@ -64,8 +65,6 @@ public class Student {
     }
 
     //to string
-
-
     @Override
     public String toString() {
         return "Student{" +

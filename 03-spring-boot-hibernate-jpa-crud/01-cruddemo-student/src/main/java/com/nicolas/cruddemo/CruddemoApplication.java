@@ -1,7 +1,6 @@
 package com.nicolas.cruddemo;
 
 import com.nicolas.cruddemo.dao.StudentDAO;
-import com.nicolas.cruddemo.dao.StudentDAOImpl;
 import com.nicolas.cruddemo.entity.Student;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -19,10 +18,24 @@ public class CruddemoApplication {
 	public CommandLineRunner commandLineRunner(StudentDAO studentDAO){
 		return runner ->{
 			//createStudent(studentDAO);
-			createMultipleStudent(studentDAO);
-
+			//createMultipleStudent(studentDAO);
+			readStudent(studentDAO);
 		};
 	}
+
+	private void readStudent(StudentDAO studentDAO){
+		System.out.println("Creating a student...");
+		Student tempStudent = new Student("Felipe", "Paiva", "FelipePaiva@hotmail.com");
+		System.out.println("Saving the student...");
+		studentDAO.save(tempStudent);
+		System.out.println("Student saved with the ID: " + tempStudent.getId());
+		int tempId = tempStudent.getId();
+		System.out.println("Printing information of the student: ");
+		Student myStudent = studentDAO.findById(tempId);
+		System.out.println(myStudent);
+
+	}
+
 
 	private void createStudent(StudentDAO studentDAO) {
 		//Create the student object

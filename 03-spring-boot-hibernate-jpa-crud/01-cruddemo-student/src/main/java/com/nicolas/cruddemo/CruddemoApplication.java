@@ -2,6 +2,7 @@ package com.nicolas.cruddemo;
 
 import com.nicolas.cruddemo.dao.StudentDAO;
 import com.nicolas.cruddemo.entity.Student;
+import org.aspectj.apache.bcel.generic.TABLESWITCH;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -24,9 +25,25 @@ public class CruddemoApplication {
 			//readStudent(studentDAO);
 			//queryForStudents(studentDAO);
 			//queryForStudentsOrderByLastName(studentDAO);
-			queryForStudentsByLastName(studentDAO);
+			//queryForStudentsByLastName(studentDAO);
+			updateStudent(studentDAO);
+
 
 		};
+	}
+
+	private void updateStudent(StudentDAO studentDAO) {
+		//Retrieve Student based on the ID.
+		int targetStudent = 7;
+		//Change the firstName
+		System.out.println("Searching the student with the ID: " + targetStudent);
+		Student tempStudent = studentDAO.findById(targetStudent);
+		tempStudent.setFirstName("Marcos");
+		studentDAO.updateStudent(tempStudent);
+		//Display the updated student
+		System.out.println("Updated the student: " + tempStudent);
+
+
 	}
 
 	private void queryForStudentsByLastName(StudentDAO studentDAO) {

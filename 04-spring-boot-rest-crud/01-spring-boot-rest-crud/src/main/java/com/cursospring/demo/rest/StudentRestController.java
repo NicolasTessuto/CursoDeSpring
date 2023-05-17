@@ -1,7 +1,9 @@
 package com.cursospring.demo.rest;
 
 import com.cursospring.demo.entity.Student;
+import jakarta.annotation.PostConstruct;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,18 +14,23 @@ import java.util.List;
 @RequestMapping("/api")
 public class StudentRestController {
 
+    private List<Student> theStudents;
 
-    @GetMapping("/StudentsList")
-    public List<Student> PrintStudents(){
-        List<Student> allStudents = new ArrayList<>();
-        allStudents.add(new Student("Nicolas", "Tessuto"));
-        allStudents.add(new Student("Victor", "Santos"));
-        allStudents.add(new Student("Joao", "Henrique"));
-        allStudents.add(new Student("Marcos", "Antonio"));
-        return allStudents;
+    @PostConstruct
+    public void loadData(){
+
+        theStudents = new ArrayList<>();
+
+        theStudents.add(new Student("Nicolas", "Tessuto"));
+        theStudents.add(new Student("Victor", "Santos"));
+        theStudents.add(new Student("Joao", "Henrique"));
+        theStudents.add(new Student("Marcos", "Antonio"));
+
     }
 
-
-
-
+    @GetMapping("/students-list")
+    public List<Student> getAllStudents(){
+        return theStudents;
+    }
+    
 }

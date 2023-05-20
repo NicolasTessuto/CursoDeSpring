@@ -7,6 +7,7 @@ import com.nts.crudtraining.service.EmployeeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.List;
 
 @RestController
@@ -51,9 +52,14 @@ public class EmployeeRestController {
         return  theEmployee;
     }
 
-    @DeleteMapping("/employees/")
-    public void deletEmployee(@PathVariable int employeeId){
-
+    @DeleteMapping("/employees/{employeeId}")
+    public String deleteEmployee(@PathVariable int employeeId){
+        Employee theEmployee = employeeService.findById(employeeId);
+        if(theEmployee == null){
+            throw new RuntimeException("Employee id not found - " + employeeId);
+        }
+        employeeService.deleteById(employeeId);
+        return "Employee " + employeeId + " deleted";
     }
 
 }

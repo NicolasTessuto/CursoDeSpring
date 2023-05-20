@@ -2,7 +2,6 @@ package com.nts.crudtraining.service;
 
 import com.nts.crudtraining.dao.EmployeeDAO;
 import com.nts.crudtraining.entity.Employee;
-import org.hibernate.internal.build.AllowPrintStacktrace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +19,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<Employee> findAll() {
-        return null;
+        return employeeDAO.findAll();
     }
 }

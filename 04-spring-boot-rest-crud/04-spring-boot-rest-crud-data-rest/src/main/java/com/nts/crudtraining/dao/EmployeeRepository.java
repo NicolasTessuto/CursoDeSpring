@@ -1,7 +1,6 @@
 package com.nts.crudtraining.dao;
 
 import com.nts.crudtraining.entity.Employee;
-import org.hibernate.boot.model.internal.JPAIndexHolder;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -25,9 +26,9 @@ public class EmployeeRestController {
     }
 
     @GetMapping("/employees/{employeeId}")
-    public Employee findById(@PathVariable int employeeId){
-        Employee theEmployee = employeeService.findById(employeeId);
-        if (theEmployee == null){
+    public Optional<Employee> findById(@PathVariable int employeeId){
+        Optional<Employee> theEmployee = employeeService.findById(employeeId);
+        if (theEmployee.isEmpty()){
             throw new RuntimeException("Employee Id not fund - " + employeeId);
         }
         return theEmployee;
@@ -41,23 +42,25 @@ public class EmployeeRestController {
     }
 
     @PutMapping("/employees/{employeeId}")
-    public Employee editEmployee(@PathVariable int employeeId, @RequestBody Employee employee){
-        Employee theEmployee = employeeService.findById(employeeId);
-        theEmployee.setFirst_name(employee.getFirst_name());
-        theEmployee.setLast_name(employee.getLast_name());
-        theEmployee.setEmail(employee.getEmail());
-        theEmployee = employeeService.save(theEmployee);
+    public Optional<Employee> editEmployee(@PathVariable int employeeId, @RequestBody Employee employee){
+        Optional<Employee> theEmployee = employeeService.findById(employeeId);
+        if(theEmployee.isEmpty()){
+            throw new RuntimeException("Employee id not fount - " + employeeId);
+        }
+        theEmployee.get().setFirst_name(employee.getFirst_name());
+        theEmployee.get().setLast_name(employee.getLast_name());
+        theEmployee.get().setEmail(employee.getEmail());
         return  theEmployee;
     }
 
     @DeleteMapping("/employees/{employeeId}")
     public String deleteEmployee(@PathVariable int employeeId){
-        Employee theEmployee = employeeService.findById(employeeId);
-        if(theEmployee == null){
+        Optional<Employee> theEmployee = employeeService.findById(employeeId);
+        if(theEmployee.isEmpty()){
             throw new RuntimeException("Employee id not found - " + employeeId);
         }
         employeeService.deleteById(employeeId);
-        return "Employee " + employeeId + " deleted";
+        return "Employee [" + theEmployee.get().getId() + "] deleted";
     }
 
 }
